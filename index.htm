@@ -1,135 +1,43 @@
+<!-- Client Page: view-color.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto Refresh and Color Change</title>
+    <title>Auto Color Change</title>
     <style>
         body {
             margin: 0;
             padding: 0;
             height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             transition: background-color 1s ease;
-        }
-
-        /* Flickering effect */
-        .flicker {
-            animation: flickerAnimation 0.2s infinite alternate;
-        }
-
-        @keyframes flickerAnimation {
-            0% { background-color: white; }
-            50% { background-color: #f4f4f4; }
-            100% { background-color: white; }
-        }
-
-        /* Image flashing */
-        #flashing-image {
-            position: absolute;
-            display: none;
-            z-index: 10;
-            width: 100%;
-            height: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
         }
     </style>
 </head>
 <body>
 
-    <img id="flashing-image" src="image.jpg" alt="Flashing Image" />
-
     <script>
-        let flickerTimeout;
+        async function fetchColor() {
+            try {
+                const response = await fetch('https://yellow-scene-86e3.karankhosla99.workers.dev/get-color');
+                const data = await response.json();
 
-        // Get the system time and set the background color based on it
-        function getColorBasedOnTime() {
-            let currentTime = new Date();
-            let minutes = currentTime.getMinutes();
-            let seconds = currentTime.getSeconds();
-
-            // Ensure color change happens exactly every 15 seconds
-            if (seconds % 15 !== 0) {
-                return; // Wait for the start of the next 15-second mark
-            }
-
-            // Remove any previous flicker class
-            document.body.classList.remove("flicker");
-
-            // Determine color based on the time of the minute
-            if (minutes % 12 === 0) {
-                document.body.style.backgroundColor = 'red';
-            } else if (minutes % 12 === 2) {
-                document.body.style.backgroundColor = 'white';
-                document.body.classList.add("flicker");  // Add flicker effect when white
-            } else if (minutes % 12 === 4) {
-                document.body.style.backgroundColor = 'pink';
-            } else if (minutes % 12 === 6) {
-                document.body.style.backgroundColor = 'purple';
-            } else if (minutes % 12 === 8) {
-                document.body.style.backgroundColor = 'green';
-            } else if (minutes % 12 === 10) {
-                document.body.style.backgroundColor = 'lightblue';
-            } else if (minutes % 12 === 1) {
-                document.body.style.backgroundColor = 'yellow';
-            } else if (minutes % 12 === 3) {
-                document.body.style.backgroundColor = 'orange';
-            } else if (minutes % 12 === 5) {
-                document.body.style.backgroundColor = 'darkblue';
-            } else if (minutes % 12 === 7) {
-                document.body.style.backgroundColor = 'brown';
-            } else if (minutes % 12 === 9) {
-                document.body.style.backgroundColor = 'lime';
-            } else if (minutes % 12 === 11) {
-                document.body.style.backgroundColor = 'cyan';
-            }
-
-            // Store the current color in localStorage
-            localStorage.setItem("backgroundColor", document.body.style.backgroundColor);
-        }
-
-        // Function to flash the image every 30 minutes for 15 seconds
-        function flashImage() {
-            let currentTime = new Date();
-            let minutes = currentTime.getMinutes();
-
-            if (minutes % 30 === 0) {  // Every 30 minutes
-                let image = document.getElementById('flashing-image');
-                image.style.display = 'block';  // Show the image
-
-                // Hide the image after 15 seconds
-                setTimeout(() => {
-                    image.style.display = 'none';
-                }, 15000);  // 15 seconds in milliseconds
+                if (data.color) {
+                    document.body.style.backgroundColor = data.color;
+                }
+            } catch (error) {
+                console.error('Error fetching color:', error);
             }
         }
 
-        // Apply the stored color from localStorage when the page loads
-        window.onload = function () {
-            let storedColor = localStorage.getItem("backgroundColor");
-            if (storedColor) {
-                document.body.style.backgroundColor = storedColor;
-            } else {
-                getColorBasedOnTime();  // If no color is stored, set it based on current time
-            }
-            flashImage();  // Check if it's time to flash the image
-        };
-
-        // Call the function to check and change the color based on system time
-        function refreshAndChangeColor() {
-            getColorBasedOnTime();
-
-            // Refresh the page every 15 seconds to keep it synchronized
-            setTimeout(() => {
-                location.reload();  // Refresh the page
-            }, 15000);  // 15 seconds in milliseconds
-        }
-
-        // Optionally, check the color change and refresh again
-        setInterval(refreshAndChangeColor, 15000);  // Every 15 seconds, trigger color change
-        setInterval(flashImage, 60000);  // Every 1 minute, check for the 30-minute mark to flash the image
-
+        // Fetch color immediately and every 5 seconds
+        fetchColor();
+        setInterval(fetchColor, 5000);
     </script>
 
 </body>
