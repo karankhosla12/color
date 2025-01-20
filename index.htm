@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Refresh and Color Change</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            transition: background-color 1s ease;
+        }
+        h1 {
+            text-align: center;
+            padding-top: 20%;
+            font-size: 3em;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Auto Refreshing Page</h1>
+
+    <script>
+        function getColorBasedOnTime() {
+            let currentTime = new Date();
+            let minutes = currentTime.getMinutes();
+            let seconds = currentTime.getSeconds();
+
+            // Ensure the page refresh happens exactly every 2 minutes
+            if (seconds !== 0) {
+                return; // Wait for the start of a new minute
+            }
+
+            // Colors based on the system time
+            if (minutes % 12 === 0) {  // Time is divisible by 12 (e.g., 7:00, 7:12, 7:24, etc.)
+                document.body.style.backgroundColor = 'red';
+            } else if (minutes % 12 === 2) {  // Time is 2 minutes past the hour (e.g., 7:02, 7:14, 7:26, etc.)
+                document.body.style.backgroundColor = 'white';
+            } else if (minutes % 12 === 4) {  // Time is 4 minutes past the hour (e.g., 7:04, 7:16, 7:28, etc.)
+                document.body.style.backgroundColor = 'pink';
+            } else if (minutes % 12 === 6) {  // Time is 6 minutes past the hour (e.g., 7:06, 7:18, 7:30, etc.)
+                document.body.style.backgroundColor = 'purple';
+            } else if (minutes % 12 === 8) {  // Time is 8 minutes past the hour (e.g., 7:08, 7:20, 7:32, etc.)
+                document.body.style.backgroundColor = 'green';
+            } else if (minutes % 12 === 10) {  // Time is 10 minutes past the hour (e.g., 7:10, 7:22, 7:34, etc.)
+                document.body.style.backgroundColor = 'lightblue';
+            } else if (minutes % 12 === 1) {  // Time is 1 minute past the hour (e.g., 7:01, 7:13, 7:25, etc.)
+                document.body.style.backgroundColor = 'yellow';
+            } else if (minutes % 12 === 3) {  // Time is 3 minutes past the hour (e.g., 7:03, 7:15, 7:27, etc.)
+                document.body.style.backgroundColor = 'orange';
+            } else if (minutes % 12 === 5) {  // Time is 5 minutes past the hour (e.g., 7:05, 7:17, 7:29, etc.)
+                document.body.style.backgroundColor = 'darkblue';
+            } else if (minutes % 12 === 7) {  // Time is 7 minutes past the hour (e.g., 7:07, 7:19, 7:31, etc.)
+                document.body.style.backgroundColor = 'brown';
+            } else if (minutes % 12 === 9) {  // Time is 9 minutes past the hour (e.g., 7:09, 7:21, 7:33, etc.)
+                document.body.style.backgroundColor = 'lime';
+            } else if (minutes % 12 === 11) {  // Time is 11 minutes past the hour (e.g., 7:11, 7:23, 7:35, etc.)
+                document.body.style.backgroundColor = 'cyan';
+            }
+        }
+
+        // Call the function to check and change the color based on system time
+        function refreshAndChangeColor() {
+            getColorBasedOnTime();
+
+            // Refresh the page every 2 minutes
+            setTimeout(() => {
+                location.reload();  // Refresh the page
+            }, 120000);  // 2 minutes in milliseconds
+        }
+
+        // Initial call to apply the color
+        refreshAndChangeColor();
+
+        // Optionally, check the color change and refresh again
+        setInterval(refreshAndChangeColor, 120000);  // Every 2 minutes, this will trigger color change and refresh
+    </script>
+
+</body>
+</html>
