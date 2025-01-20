@@ -43,7 +43,14 @@
                 if (data.color && data.color.trim() !== "transparent") {
                     document.body.style.backgroundColor = data.color;
                     hideFallbackImage();
-                } else {
+                } 
+                    else if( data.color === "grey" ) {
+                   
+                    <h1> "Please do not refresh for 10 seconds to get into sync " < /h1> 
+                }
+                
+                
+                else {
                     showFallbackImage(); // Show fallback image if color is transparent or invalid
                 }
             } catch (error) {
