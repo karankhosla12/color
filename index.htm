@@ -43,12 +43,13 @@
     <script>
         let flickerTimeout;
 
+        // Get the system time and set the background color based on it
         function getColorBasedOnTime() {
             let currentTime = new Date();
             let minutes = currentTime.getMinutes();
             let seconds = currentTime.getSeconds();
 
-            // Ensure the page refresh happens exactly every 30 seconds
+            // Ensure color change happens exactly every 30 seconds
             if (seconds % 30 !== 0) {
                 return; // Wait for the start of the next 30-second mark
             }
@@ -56,32 +57,31 @@
             // Remove any previous flicker class
             document.body.classList.remove("flicker");
 
-            // Colors based on the system time
-            if (minutes % 12 === 0) {  // Time is divisible by 12 (e.g., 7:00, 7:12, 7:24, etc.)
+            // Determine color based on the time of the minute
+            if (minutes % 12 === 0) {
                 document.body.style.backgroundColor = 'red';
-            } else if (minutes % 12 === 2) {  // Time is 2 minutes past the hour (e.g., 7:02, 7:14, 7:26, etc.)
+            } else if (minutes % 12 === 2) {
                 document.body.style.backgroundColor = 'white';
-                // Add flickering effect for white background
-                document.body.classList.add("flicker");
-            } else if (minutes % 12 === 4) {  // Time is 4 minutes past the hour (e.g., 7:04, 7:16, 7:28, etc.)
+                document.body.classList.add("flicker");  // Add flicker effect when white
+            } else if (minutes % 12 === 4) {
                 document.body.style.backgroundColor = 'pink';
-            } else if (minutes % 12 === 6) {  // Time is 6 minutes past the hour (e.g., 7:06, 7:18, 7:30, etc.)
+            } else if (minutes % 12 === 6) {
                 document.body.style.backgroundColor = 'purple';
-            } else if (minutes % 12 === 8) {  // Time is 8 minutes past the hour (e.g., 7:08, 7:20, 7:32, etc.)
+            } else if (minutes % 12 === 8) {
                 document.body.style.backgroundColor = 'green';
-            } else if (minutes % 12 === 10) {  // Time is 10 minutes past the hour (e.g., 7:10, 7:22, 7:34, etc.)
+            } else if (minutes % 12 === 10) {
                 document.body.style.backgroundColor = 'lightblue';
-            } else if (minutes % 12 === 1) {  // Time is 1 minute past the hour (e.g., 7:01, 7:13, 7:25, etc.)
+            } else if (minutes % 12 === 1) {
                 document.body.style.backgroundColor = 'yellow';
-            } else if (minutes % 12 === 3) {  // Time is 3 minutes past the hour (e.g., 7:03, 7:15, 7:27, etc.)
+            } else if (minutes % 12 === 3) {
                 document.body.style.backgroundColor = 'orange';
-            } else if (minutes % 12 === 5) {  // Time is 5 minutes past the hour (e.g., 7:05, 7:17, 7:29, etc.)
+            } else if (minutes % 12 === 5) {
                 document.body.style.backgroundColor = 'darkblue';
-            } else if (minutes % 12 === 7) {  // Time is 7 minutes past the hour (e.g., 7:07, 7:19, 7:31, etc.)
+            } else if (minutes % 12 === 7) {
                 document.body.style.backgroundColor = 'brown';
-            } else if (minutes % 12 === 9) {  // Time is 9 minutes past the hour (e.g., 7:09, 7:21, 7:33, etc.)
+            } else if (minutes % 12 === 9) {
                 document.body.style.backgroundColor = 'lime';
-            } else if (minutes % 12 === 11) {  // Time is 11 minutes past the hour (e.g., 7:11, 7:23, 7:35, etc.)
+            } else if (minutes % 12 === 11) {
                 document.body.style.backgroundColor = 'cyan';
             }
 
@@ -94,7 +94,7 @@
             let currentTime = new Date();
             let minutes = currentTime.getMinutes();
 
-            if (minutes % 30 === 0) {  // Every 30 minutes (e.g., 7:00, 7:30, 8:00, etc.)
+            if (minutes % 30 === 0) {  // Every 30 minutes
                 let image = document.getElementById('flashing-image');
                 image.style.display = 'block';  // Show the image
 
@@ -111,24 +111,25 @@
             if (storedColor) {
                 document.body.style.backgroundColor = storedColor;
             } else {
-                getColorBasedOnTime();
+                getColorBasedOnTime();  // If no color is stored, set it based on current time
             }
-            flashImage();
+            flashImage();  // Check if it's time to flash the image
         };
 
         // Call the function to check and change the color based on system time
         function refreshAndChangeColor() {
             getColorBasedOnTime();
 
-            // Refresh the page every 30 seconds
+            // Refresh the page every 30 seconds to keep it synchronized
             setTimeout(() => {
                 location.reload();  // Refresh the page
             }, 30000);  // 30 seconds in milliseconds
         }
 
         // Optionally, check the color change and refresh again
-        setInterval(refreshAndChangeColor, 30000);  // Every 30 seconds, this will trigger color change and refresh
+        setInterval(refreshAndChangeColor, 30000);  // Every 30 seconds, trigger color change
         setInterval(flashImage, 60000);  // Every 1 minute, check for the 30-minute mark to flash the image
+
     </script>
 
 </body>
