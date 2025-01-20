@@ -19,6 +19,12 @@
             width: 100%;
             height: 100vh;
         }
+
+        @keyframes flicker {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -26,6 +32,8 @@
     <img id="fallbackImage" class="image-fallback" src="download (1).jpeg" alt="Default Image">
 
     <script>
+        let flickerInterval;
+        
         async function fetchColor() {
             try {
                 const response = await fetch('https://yellow-scene-86e3.karankhosla99.workers.dev/get-color');
@@ -34,6 +42,7 @@
                 if (data.color && data.color.trim() !== "") {
                     document.body.style.backgroundColor = data.color;
                     document.getElementById('fallbackImage').style.display = 'none'; 
+                    stopFlickering();  // Stop flickering when color is received
                 } else {
                     showFallbackImage();
                 }
@@ -46,6 +55,19 @@
         function showFallbackImage() {
             document.body.style.backgroundColor = 'transparent';
             document.getElementById('fallbackImage').style.display = 'block';
+            startFlickering();  // Start flickering when image is displayed
+        }
+
+        function startFlickering() {
+            const fallbackImage = document.getElementById('fallbackImage');
+            fallbackImage.style.animation = 'flicker 0.75s infinite';
+            // Ensures flickering effect for 7 seconds continuously
+            setTimeout(() => stopFlickering(), 7000);
+        }
+
+        function stopFlickering() {
+            const fallbackImage = document.getElementById('fallbackImage');
+            fallbackImage.style.animation = 'none';  // Stops flickering
         }
 
         // Fetch color immediately and every 5 seconds
