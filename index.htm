@@ -14,11 +14,24 @@
             align-items: center;
             transition: background-color 1s ease;
         }
+        
+        /* Flickering effect */
+        .flicker {
+            animation: flickerAnimation 0.2s infinite alternate;
+        }
+        
+        @keyframes flickerAnimation {
+            0% { background-color: white; }
+            50% { background-color: #f4f4f4; }
+            100% { background-color: white; }
+        }
     </style>
 </head>
 <body>
 
     <script>
+        let flickerTimeout;
+
         function getColorBasedOnTime() {
             let currentTime = new Date();
             let minutes = currentTime.getMinutes();
@@ -29,11 +42,16 @@
                 return; // Wait for the start of a new minute
             }
 
+            // Remove any previous flicker class
+            document.body.classList.remove("flicker");
+
             // Colors based on the system time
             if (minutes % 12 === 0) {  // Time is divisible by 12 (e.g., 7:00, 7:12, 7:24, etc.)
                 document.body.style.backgroundColor = 'red';
             } else if (minutes % 12 === 2) {  // Time is 2 minutes past the hour (e.g., 7:02, 7:14, 7:26, etc.)
                 document.body.style.backgroundColor = 'white';
+                // Add flickering effect for white background
+                document.body.classList.add("flicker");
             } else if (minutes % 12 === 4) {  // Time is 4 minutes past the hour (e.g., 7:04, 7:16, 7:28, etc.)
                 document.body.style.backgroundColor = 'pink';
             } else if (minutes % 12 === 6) {  // Time is 6 minutes past the hour (e.g., 7:06, 7:18, 7:30, etc.)
