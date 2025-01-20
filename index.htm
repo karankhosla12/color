@@ -40,13 +40,14 @@
                 const data = await response.json();
 
                 // Check if the color is valid or not
-                if (data.color && data.color.trim() !== "transparent") {
+                if (data.color && data.color.trim() !== "transparent" && data.color !== "grey") {
                     document.body.style.backgroundColor = data.color;
                     hideFallbackImage();
                 } 
                     else if( data.color === "grey" ) {
                    
                     <h1> "Please do not refresh for 10 seconds to get into sync " < /h1> 
+                    hideFallbackImage();
                 }
                 
                 
