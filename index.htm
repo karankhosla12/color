@@ -38,7 +38,7 @@
 </head>
 <body>
 
-    <img id="flashing-image" src="download (1).jpeg" alt="Flashing Image" />
+    <img id="flashing-image" src="image.jpg" alt="Flashing Image" />
 
     <script>
         let flickerTimeout;
@@ -49,9 +49,9 @@
             let minutes = currentTime.getMinutes();
             let seconds = currentTime.getSeconds();
 
-            // Ensure color change happens exactly every 30 seconds
-            if (seconds % 30 !== 0) {
-                return; // Wait for the start of the next 30-second mark
+            // Ensure color change happens exactly every 15 seconds
+            if (seconds % 15 !== 0) {
+                return; // Wait for the start of the next 15-second mark
             }
 
             // Remove any previous flicker class
@@ -120,14 +120,14 @@
         function refreshAndChangeColor() {
             getColorBasedOnTime();
 
-            // Refresh the page every 30 seconds to keep it synchronized
+            // Refresh the page every 15 seconds to keep it synchronized
             setTimeout(() => {
                 location.reload();  // Refresh the page
-            }, 30000);  // 30 seconds in milliseconds
+            }, 15000);  // 15 seconds in milliseconds
         }
 
         // Optionally, check the color change and refresh again
-        setInterval(refreshAndChangeColor, 30000);  // Every 30 seconds, trigger color change
+        setInterval(refreshAndChangeColor, 15000);  // Every 15 seconds, trigger color change
         setInterval(flashImage, 60000);  // Every 1 minute, check for the 30-minute mark to flash the image
 
     </script>
