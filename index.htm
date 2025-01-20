@@ -84,16 +84,9 @@
             } else if (minutes % 12 === 11) {  // Time is 11 minutes past the hour (e.g., 7:11, 7:23, 7:35, etc.)
                 document.body.style.backgroundColor = 'cyan';
             }
-        }
 
-        // Call the function to check and change the color based on system time
-        function refreshAndChangeColor() {
-            getColorBasedOnTime();
-
-            // Refresh the page every 30 seconds
-            setTimeout(() => {
-                location.reload();  // Refresh the page
-            }, 30000);  // 30 seconds in milliseconds
+            // Store the current color in localStorage
+            localStorage.setItem("backgroundColor", document.body.style.backgroundColor);
         }
 
         // Function to flash the image every 30 minutes for 15 seconds
@@ -112,9 +105,26 @@
             }
         }
 
-        // Initial call to apply the color
-        refreshAndChangeColor();
-        flashImage();
+        // Apply the stored color from localStorage when the page loads
+        window.onload = function () {
+            let storedColor = localStorage.getItem("backgroundColor");
+            if (storedColor) {
+                document.body.style.backgroundColor = storedColor;
+            } else {
+                getColorBasedOnTime();
+            }
+            flashImage();
+        };
+
+        // Call the function to check and change the color based on system time
+        function refreshAndChangeColor() {
+            getColorBasedOnTime();
+
+            // Refresh the page every 30 seconds
+            setTimeout(() => {
+                location.reload();  // Refresh the page
+            }, 30000);  // 30 seconds in milliseconds
+        }
 
         // Optionally, check the color change and refresh again
         setInterval(refreshAndChangeColor, 30000);  // Every 30 seconds, this will trigger color change and refresh
