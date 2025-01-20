@@ -14,20 +14,31 @@
             align-items: center;
             transition: background-color 1s ease;
         }
-        
+
         /* Flickering effect */
         .flicker {
             animation: flickerAnimation 0.2s infinite alternate;
         }
-        
+
         @keyframes flickerAnimation {
             0% { background-color: white; }
             50% { background-color: #f4f4f4; }
             100% { background-color: white; }
         }
+
+        /* Image flashing */
+        #flashing-image {
+            position: absolute;
+            display: none;
+            z-index: 10;
+            width: 100%;
+            height: auto;
+        }
     </style>
 </head>
 <body>
+
+    <img id="flashing-image" src="download (1).jpeg" alt="Flashing Image" />
 
     <script>
         let flickerTimeout;
@@ -37,9 +48,9 @@
             let minutes = currentTime.getMinutes();
             let seconds = currentTime.getSeconds();
 
-            // Ensure the page refresh happens exactly every 2 minutes
-            if (seconds !== 0) {
-                return; // Wait for the start of a new minute
+            // Ensure the page refresh happens exactly every 30 seconds
+            if (seconds % 30 !== 0) {
+                return; // Wait for the start of the next 30-second mark
             }
 
             // Remove any previous flicker class
@@ -79,17 +90,35 @@
         function refreshAndChangeColor() {
             getColorBasedOnTime();
 
-            // Refresh the page every 2 minutes
+            // Refresh the page every 30 seconds
             setTimeout(() => {
                 location.reload();  // Refresh the page
-            }, 120000);  // 2 minutes in milliseconds
+            }, 30000);  // 30 seconds in milliseconds
+        }
+
+        // Function to flash the image every 30 minutes for 15 seconds
+        function flashImage() {
+            let currentTime = new Date();
+            let minutes = currentTime.getMinutes();
+
+            if (minutes % 30 === 0) {  // Every 30 minutes (e.g., 7:00, 7:30, 8:00, etc.)
+                let image = document.getElementById('flashing-image');
+                image.style.display = 'block';  // Show the image
+
+                // Hide the image after 15 seconds
+                setTimeout(() => {
+                    image.style.display = 'none';
+                }, 15000);  // 15 seconds in milliseconds
+            }
         }
 
         // Initial call to apply the color
         refreshAndChangeColor();
+        flashImage();
 
         // Optionally, check the color change and refresh again
-        setInterval(refreshAndChangeColor, 120000);  // Every 2 minutes, this will trigger color change and refresh
+        setInterval(refreshAndChangeColor, 30000);  // Every 30 seconds, this will trigger color change and refresh
+        setInterval(flashImage, 60000);  // Every 1 minute, check for the 30-minute mark to flash the image
     </script>
 
 </body>
